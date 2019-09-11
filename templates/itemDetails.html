@@ -1,0 +1,33 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+
+    <h4 class="text-center text-gray-500 p-5 text-2xl">Item {{item.name}} Details </h4>
+
+    <div class="bg-white border-t-4 border-blue-500 rounded-b text-teal-900 ml-48 mr-48 px-4 py-3 shadow-md" role="alert">
+        <div class="flex">
+            <div class="py-1">
+                <svg class="fill-current h-6 w-6 text-blue-500 ml-8 mt-4 mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"/></svg></div>
+            <div>
+            <p class="font-bold p-6"><span class="text-blue">Description</span>: {{item.description}}</p>
+            </div>
+            
+        </div>
+
+        <!-- check if the user is authenticated and has authorization to perform operations on this item-->
+        {% if current_user.is_authenticated and current_user.id == authUser.user_id %}
+            <div class="m-12">
+                <a class="ml-4 inline-block border border-white text-xl rounded-full hover:bg-orange-700 bg-orange-500 text-white py-1 px-3" 
+                    href="{{url_for('editItem', categoryName=categoryName, itemName=item.name)}}">Edit</a>
+                <a class="ml-4 inline-block border border-white text-xl rounded-full hover:bg-red-700 bg-red-500 text-white py-1 px-3"
+                    href="{{url_for('deleteItem', categoryName=categoryName, itemName=item.name)}}">Delete</a>
+                <a class="ml-4 inline-block border border-white text-xl rounded-full hover:bg-blue-700 bg-blue-500 text-white py-1 px-3"
+                    href="{{url_for('allItems', categoryName=categoryName)}}">Back</a>
+            </div>
+        {% else %}
+            <a class="ml-4 inline-block border border-white text-xl rounded-full hover:bg-blue-700 bg-blue-500 text-white py-1 px-3"
+            href="{{url_for('allItems', categoryName=categoryName)}}">Back</a>
+        {% endif %}
+    </div>
+    
+{% endblock %}

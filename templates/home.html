@@ -1,0 +1,36 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+    <h4 class="text-center text-3xl p-5 text-gray-500">Welcome to the Item Catalog</h4>
+
+    <!-- getting the flash message -->
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="bg-teal-900 text-center ml-48 mr-48 mb-5 py-4 lg:px-4">
+                    <div class="p-2 bg-teal-800 items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex" role="alert">
+                        <span class="flex rounded-full bg-teal-500 uppercase px-2 py-1 text-xs font-bold mr-3">{{message}}</span>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    
+    <!-- checking if the user is not authenticated -->
+    {% if not current_user.is_authenticated %}
+        <p class="text-center text-xl p-3 text-gray-500">please login or regsiter</p>
+    {% else %}
+        <div class="p-2 bg-teal-800 mx-48 mb-4 items-center justify-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex" role="alert">
+            <span class="flex rounded-full bg-teal-500 uppercase px-2 py-1 text-xs font-bold mr-3">Hello</span>
+            <span class="font-semibold mr-2 text-left flex-auto">{{ current_user.username }}</span>
+        </div>
+    {% endif %}
+    
+    <!-- looping through all the categories -->
+    {% for cat in categories %}
+    <li class="list-none ml-48 w-56 p-2 rounded hover:bg-gray-500">
+        <a class="text-white text-2xl" href="{{url_for('allItems', categoryName=cat.name)}}">{{ cat.name }}</a>
+    </li>
+{% endfor %} 
+ 
+{% endblock %}

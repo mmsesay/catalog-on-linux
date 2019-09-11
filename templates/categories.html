@@ -1,0 +1,49 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+    
+    {% if current_user.is_authenticated %}
+        <!-- adding new item -->
+        <div class="mt-10 mb-10">
+            <a class="ml-48 inline-block border border-white text-xl rounded hover:bg-teal-500 text-white py-1 px-3" href="{{url_for('createCategory', user_id=current_user.id)}}">Create new category</a>
+            <a class="ml-10 inline-block border border-white text-xl rounded hover:bg-blue-400 text-white py-1 px-3" href="{{url_for('index')}}">Back</a>
+
+            <div class="p-2 bg-teal-800 mx-48 mb-4 items-center justify-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex" role="alert">
+                <span class="flex rounded-full bg-teal-500 uppercase px-2 py-1 text-xs font-bold mr-3">Hello</span>
+                <span class="font-semibold mr-2 text-left flex-auto">{{ current_user.username }}</span>
+            </div>
+        </div>
+
+        <!-- getting all the flashed messages and passing them to the messages variable -->
+        {% with messages = get_flashed_messages() %}
+            <!-- checking if their is a message -->
+            {% if messages %}
+                <!-- looping through the messages and printing it out-->
+                {% for message in messages %}
+                    <div class="bg-teal-900 text-center ml-48 mr-48 mb-10 py-4 lg:px-4">
+                        <div class="p-2 bg-teal-800 items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex" role="alert">
+                            <span class="flex rounded-full bg-teal-500 uppercase px-2 py-1 text-xs font-bold mr-3">{{message}}</span>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <!-- looping through the  categories-->
+        {% for cat in allCats %}
+            <li class="list-none ml-48 w-4/12 mr-64 p-2 rounded hover:bg-gray-500">
+                <a class="text-white text-2xl" href="{{url_for('allItems', categoryName=cat.name)}}">{{ cat.name }}</a>
+                
+                <a class="ml-8">
+                    <a class="ml-8 inline-block border border-white text-xl rounded-full hover:bg-orange-700 bg-orange-500 text-white py-1 px-3" 
+                        href="{{url_for('editCategory', categoryName=cat.name)}}">Edit</a>
+                    <a class="ml-4 inline-block border border-white text-xl rounded-full hover:bg-red-700 bg-red-500 text-white py-1 px-3"
+                        href="{{url_for('deleteCategory', categoryName=cat.name)}}">Delete</a>
+                </a>
+            </li>           
+        {% endfor %}
+        <!-- end of categories loop -->
+
+    {% endif %}
+
+{% endblock %}
