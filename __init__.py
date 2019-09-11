@@ -31,7 +31,7 @@ APPLICATION_NAME = "Item Catalog App"
 app.config['SECRET_KEY'] = 'mysecretkey'
 
 #Connect to Database and create database session
-engine = create_engine('postgresql://cataloguser:catalog123@localhost/catalog')
+engine = create_engine('postgresql://cataloguser:catalog123@localhost/catalogdb')
 
 # setting the app to make use of login manager 
 login_manager.init_app(app)
