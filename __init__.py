@@ -447,8 +447,6 @@ def allItems(categoryName):
 @login_required
 def createItem(categoryName):
     """This function gives logged in users the previledge to create an item."""
-    if 'username' not in login_session:
-        return redirect('/user/login')
 
     # if the request is a POST
     if request.method == 'POST':
